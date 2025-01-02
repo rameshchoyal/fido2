@@ -48,7 +48,10 @@ const Password = () => {
       ],
       timeout: 60000,
     };
-
+    console.log(
+      "publicKeyCredentialRequestOptions",
+      publicKeyCredentialRequestOptions
+    );
     const assertion = await navigator.credentials.get({
       publicKey: publicKeyCredentialRequestOptions,
     });
