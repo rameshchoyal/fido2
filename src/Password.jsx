@@ -6,21 +6,21 @@ const Password = () => {
   const [message, setMessage] = useState("");
   const [ids, setIds] = useState("x_GuFRpUr5tnCfHEGrmHLA");
 
-  // Convert ArrayBuffer to Base64 string
-  const arrayBufferToBase64 = (buffer) => {
-    return btoa(String.fromCharCode(...new Uint8Array(buffer)));
-  };
+  // // Convert ArrayBuffer to Base64 string
+  // const arrayBufferToBase64 = (buffer) => {
+  //   return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+  // };
 
-  // Convert Base64 string to Uint8Array
-  const base64ToUint8Array = (base64) => {
-    const binaryString = atob(base64);
-    const length = binaryString.length;
-    const array = new Uint8Array(length);
-    for (let i = 0; i < length; i++) {
-      array[i] = binaryString.charCodeAt(i);
-    }
-    return array;
-  };
+  // // Convert Base64 string to Uint8Array
+  // const base64ToUint8Array = (base64) => {
+  //   const binaryString = atob(base64);
+  //   const length = binaryString.length;
+  //   const array = new Uint8Array(length);
+  //   for (let i = 0; i < length; i++) {
+  //     array[i] = binaryString.charCodeAt(i);
+  //   }
+  //   return array;
+  // };
 
   const handleCreate = async () => {
     const credential = await navigator.credentials.create({
@@ -47,9 +47,9 @@ const Password = () => {
     });
 
     console.log("Created credential:", credential);
-    const encodedId = arrayBufferToBase64(credential.rawId);
-    console.log("Created credential ID:", encodedId);
-    setIds(encodedId); // Store Base64 encoded ID
+    // const encodedId = arrayBufferToBase64(credential.rawId);
+    // console.log("Created credential ID:", encodedId);
+    setIds(credential.id); // Store Base64 encoded ID
   };
 
   const handleRegister = async () => {
@@ -59,7 +59,7 @@ const Password = () => {
       ),
       allowCredentials: [
         {
-          id: base64ToUint8Array(ids),
+          id: Uint8Array.from(ids, (c) => c.charCodeAt(0)), // Decode Base64 encoded ID
           type: "public-key",
           transports: ["hybrid", "internal"],
         },
