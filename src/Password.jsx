@@ -4,7 +4,7 @@ import axios from "axios";
 const Password = () => {
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
-  const [id, setId] = useState("x_GuFRpUr5tnCfHEGrmHLA");
+  const [ids, setIds] = useState("x_GuFRpUr5tnCfHEGrmHLA");
 
   const handleCreate = async () => {
     const credential = await navigator.credentials.create({
@@ -31,7 +31,7 @@ const Password = () => {
     });
 
     console.log("Created credential:", credential);
-    setId(credential.id);
+    setIds(credential.id);
   };
 
   const handleRegister = async () => {
@@ -41,17 +41,14 @@ const Password = () => {
       ),
       allowCredentials: [
         {
-          id: Uint8Array.from(id, (c) => c.charCodeAt(0)),
+          id: Uint8Array.from(ids, (c) => c.charCodeAt(0)),
           type: "public-key",
           transports: ["hybrid", "internal"],
         },
       ],
       timeout: 60000,
     };
-    console.log(
-      "publicKeyCredentialRequestOptions",
-      publicKeyCredentialRequestOptions
-    );
+    console.log("ids", ids);
     const assertion = await navigator.credentials.get({
       publicKey: publicKeyCredentialRequestOptions,
     });
@@ -118,10 +115,10 @@ const Password = () => {
       />
       <br />
       <button onClick={handleRegister} style={{ padding: "5px 10px" }}>
-        Register
+        Login
       </button>
       <button onClick={handleCreate} style={{ padding: "5px 10px" }}>
-        Create
+        Register
       </button>
       {message && <p>{message}</p>}
     </div>
